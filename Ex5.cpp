@@ -21,7 +21,8 @@ void calculateCircle()
     }
 
     double circumference = 2 * PI * r;
-    double area = PI * r * r;
+    // double area = PI * r * r;
+    double area = PI * std::pow(r, 2);
 
     std::cout << "圆的周长: " << circumference << '\n';
     std::cout << "圆的面积: " << area << '\n';
