@@ -5,9 +5,9 @@
     "code-runner.clearPreviousOutput": true,
     // 运行前保存文件
     "code-runner.saveFileBeforeRun": true,
-    // 自定义 C++ 运行命令（编译后运行）
+    // 自定义 C++ 运行命令（编译当前目录下所有 .cpp 文件）
     "code-runner.executorMap": {
-        "cpp": "cd $dir && g++ -std=c++17 $fileName -o $fileNameWithoutExt && $dir$fileNameWithoutExt"
+        "cpp": "cd $dir && g++ -std=c++17 *.cpp -o main && $dir/main"
     },
     "files.associations": {
         "__bit_reference": "cpp",
