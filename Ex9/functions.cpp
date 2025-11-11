@@ -1,0 +1,16 @@
+#include <iostream>
+
+void func(int A)
+{
+    std::cout << "成功调用函数1" << A << std::endl;
+}
+
+void func(int A2, std::string B2)
+{
+    std::cout << "成功调用函数2" << A2 << ' ' << B2 << std::endl;
+}
+
+void func(int A3, std::string B3, float C3)
+{
+    std::cout << "成功调用函数3" << A3 << ' ' << B3 << ' ' << C3 << std::endl;
+}
