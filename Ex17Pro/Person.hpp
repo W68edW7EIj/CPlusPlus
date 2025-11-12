@@ -26,7 +26,8 @@ public:
         age_ = 0;
     }
 
-    friend std::ostream &operator<<(std::ostream &os, const Person &p)
+    // 重载运算符：operator加运算符
+    friend std::ostream &operator<<(std::ostream &os, const Person &p) // os以非常量引用接受输出流
     // friend 表示该函数是类的朋友就能直接访问类的私有成员了
     {
         return os << p.name_ << " (" << p.age_ << ")";
