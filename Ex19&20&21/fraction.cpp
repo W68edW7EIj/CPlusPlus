@@ -41,12 +41,11 @@ namespace MATH // namespace 不是全局生效所以如果空间分散在多处�
     // 简化函数
     void Fraction::simplification()
     {
-        // 特值处理
+        // 由于所有构造以及操作后都会汇总到简化函数，所以在简化函数里面处理异常就能实现广覆盖
         if (denominateur_ == 0)
         {
-            std::cout << "分母不能为0，重设为1\n";
-            denominateur_ = 1;
-            return;
+            // throw 之后的代码不会执行，因为程序流程立即跳转到 catch 块
+            throw FractionException("错误：分母不能为0！", numerateur_, denominateur_);
         }
 
         if (numerateur_ == 0)

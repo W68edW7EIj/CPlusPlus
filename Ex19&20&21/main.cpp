@@ -78,6 +78,49 @@ int main()
     cout << "\n---- 测试 cout << f (已在上面使用) ----\n";
     cout << "链式输出测试: " << f8 << " + " << f9 << " = " << f10 << endl;
 
+    // Ex21 =================================
+    cout << "\n==== E21 - 测试异常处理 ====\n";
+
+    cout << "\n---- 构造函数中分母为0 ----\n";
+    try
+    {
+        Fraction f16(1, 0);
+        cout << "f16 = " << f16 << endl; // 不会执行
+    }
+    catch (const FractionException &e)
+    {
+        cout << "捕获到 FractionException 异常: " << e.getInfo() << endl;
+        cout << "  错误的分数值: " << e.getNumerateur() << "/" << e.getDenominateur() << endl;
+    }
+
+    cout << "\n---- setFraction 中分母为0 ----\n";
+    try
+    {
+        Fraction f17(3, 4);
+        cout << "创建 f17 = " << f17 << endl;
+        cout << "尝试将 f17 设置为 5/0..." << endl;
+        f17.setFraction(5, 0);
+        cout << "f17 = " << f17 << endl;
+    }
+    catch (const FractionException &e)
+    {
+        cout << "捕获到 FractionException 异常: " << e.getInfo() << endl;
+        cout << "  错误的分数值: " << e.getNumerateur() << "/" << e.getDenominateur() << endl;
+    }
+
+    cout << "\n---- 正常的分数运算 ----\n";
+    try
+    {
+        Fraction f18(1, 2);
+        Fraction f19(1, 3);
+        Fraction f20 = f18 + f19;
+        cout << f18 << " + " << f19 << " = " << f20 << " ✓" << endl;
+    }
+    catch (const FractionException &e)
+    {
+        cout << "捕获到 FractionException 异常: " << e.getInfo() << endl;
+    }
+
     cout << "\n---- 程序结束 ----\n";
 
     return 0;
@@ -157,4 +200,32 @@ f11 + 2 = 8/3
 
 ---- 测试 cout << f (已在上面使用) ----
 链式输出测试: 1/2 + 1/3 = 5/6
+*/
+
+/*
+Ex21结果
+
+==== E21 - 测试异常处理 ====
+
+---- 构造函数中分母为0 ----
++ 构造 Fraction 对象: 0x16f606f18 => 1/0
+捕获到 FractionException 异常: 错误：分母不能为0！
+  错误的分数值: 1/0
+
+---- setFraction 中分母为0 ----
++ 构造 Fraction 对象: 0x16f606f08 => 3/4
+创建 f17 = 3/4
+尝试将 f17 设置为 5/0...
+- 析构 Fraction 对象: 0x16f606f08 => 5/0
+捕获到 FractionException 异常: 错误：分母不能为0！
+  错误的分数值: 5/0
+
+---- 正常的分数运算 ----
++ 构造 Fraction 对象: 0x16f606ef8 => 1/2
++ 构造 Fraction 对象: 0x16f606ef0 => 1/3
++ 构造 Fraction 对象: 0x16f606ee8 => 5/6
+1/2 + 1/3 = 5/6 ✓
+- 析构 Fraction 对象: 0x16f606ee8 => 5/6
+- 析构 Fraction 对象: 0x16f606ef0 => 1/3
+- 析构 Fraction 对象: 0x16f606ef8 => 1/2
 */
