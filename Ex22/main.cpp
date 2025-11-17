@@ -1,139 +1,98 @@
 #include "set.h"
-#include <iostream>
+using namespace Set;
+
+void f(Plateau &dest, const Plateau &source)
+{
+	dest = source;
+}
 
 int main()
 {
-    try
-    {
-        std::cout << "=== Test des enumerations ===" << std::endl;
-        printCouleurs();
-        printNombres();
-        printFormes();
-        printRemplissages();
-        std::cout << std::endl;
+	try
+	{
+		// Test 1: Display all possible values
+		cout << "=== Test 1: Display characteristic values ===" << endl;
+		printCouleurs();
+		printNombres();
+		printFormes();
+		printRemplissages();
+		cout << endl;
 
-        // Test Carte
-        std::cout << "=== Test de la classe Carte ===" << std::endl;
-        Carte c1(Couleur::rouge, Nombre::deux, Forme::ovale, Remplissage::plein);
-        std::cout << "Carte 1: " << c1 << std::endl;
+		// Test 2: Get Jeu instance and display some cards
+		cout << "=== Test 2: Display some cards from Jeu ===" << endl;
+		Jeu &j = Jeu::getInstance();
+		for (size_t i = 0; i < 10; i++)
+			cout << j.getCarte(i) << "\n";
+		cout << endl;
 
-        Carte c2(Couleur::vert, Nombre::un, Forme::vague, Remplissage::vide);
-        std::cout << "Carte 2: " << c2 << std::endl;
-        std::cout << std::endl;
+		// Test 3: Use Iterator
+		cout << "=== Test 3: Iterate using Iterator ===" << endl;
+		Jeu::Iterator it = j.first();
+		int count = 0;
+		while (!it.isDone() && count < 10)
+		{
+			cout << it.getCurrentItem();
+			it.next();
+			count++;
+		}
+		cout << "\n"
+			 << endl;
 
-        // Test Jeu
-        std::cout << "=== Test de la classe Jeu ===" << std::endl;
-        Jeu jeu;
-        std::cout << "Nombre de cartes dans le jeu: " << jeu.getNbCartes() << std::endl;
-        std::cout << "Premiere carte: " << jeu.getCarte(0) << std::endl;
-        std::cout << "Derniere carte: " << jeu.getCarte(80) << std::endl;
-        std::cout << std::endl;
+		// Test 4: Use const_iterator with range-based for loop
+		cout << "=== Test 4: Range-based for loop ===" << endl;
+		count = 0;
+		for (const Carte &c : j)
+		{
+			cout << c << "\n";
+			if (++count >= 10)
+				break;
+		}
+		cout << endl;
 
-        // Test Pioche
-        std::cout << "=== Test de la classe Pioche ===" << std::endl;
-        Pioche pioche(jeu);
-        std::cout << "Cartes dans la pioche: " << pioche.getNbCartes() << std::endl;
-        std::cout << "La pioche est vide? " << (pioche.estVide() ? "OUI" : "NON") << std::endl;
+		// Test 5: Test Plateau operations
+		cout << "=== Test 5: Plateau operations ===" << endl;
+		Plateau p1;
+		p1.ajouter(j.getCarte(0));
+		p1.ajouter(j.getCarte(1));
+		p1.ajouter(j.getCarte(2));
+		cout << "Plateau p1:" << endl;
+		cout << p1;
 
-        const Carte *carte1 = pioche.piocher();
-        std::cout << "Carte piochee: " << *carte1 << std::endl;
-        std::cout << "Cartes restantes: " << pioche.getNbCartes() << std::endl;
-        std::cout << std::endl;
+		Plateau p2;
+		p2.ajouter(j.getCarte(3));
+		p2.ajouter(j.getCarte(4));
+		cout << "Plateau p2:" << endl;
+		cout << p2;
 
-        // Test Plateau
-        std::cout << "=== Test de la classe Plateau ===" << std::endl;
-        Plateau plateau;
-        plateau.ajouter(carte1);
+		// Test copy constructor
+		Plateau p3(p1);
+		cout << "Plateau p3 (copy of p1):" << endl;
+		cout << p3;
 
-        for (int i = 0; i < 5; i++)
-        {
-            plateau.ajouter(pioche.piocher());
-        }
+		// Test assignment operator
+		p2 = p1;
+		cout << "Plateau p2 after p2 = p1:" << endl;
+		cout << p2;
+		cout << endl;
 
-        plateau.print();
-        std::cout << std::endl;
+		// Test 6: Combinaison and estUnSet
+		cout << "=== Test 6: Test Combinaison ===" << endl;
+		Combinaison combo1(j.getCarte(0), j.getCarte(1), j.getCarte(2));
+		cout << "Combinaison: " << combo1 << endl;
+		cout << "Est un SET? " << (combo1.estUnSet() ? "Oui" : "Non") << endl;
+		cout << endl;
 
-        // Test Combinaison
-        std::cout << "=== Test de la classe Combinaison ===" << std::endl;
+		// Test 7: Controleur
+		cout << "=== Test 7: Test Controleur ===" << endl;
+		Controleur ctrl;
+		ctrl.distribuer();
+		cout << ctrl.getPlateau();
+		cout << "Nombre de cartes dans la pioche: " << ctrl.getPioche().getNbCartes() << endl;
+	}
+	catch (SetException &e)
+	{
+		std::cout << "Exception: " << e.getInfo() << "\n";
+	}
 
-        // Créer un SET valide (toutes les propriétés différentes)
-        const Carte *sc1 = new Carte(Couleur::rouge, Nombre::un, Forme::ovale, Remplissage::plein);
-        const Carte *sc2 = new Carte(Couleur::vert, Nombre::deux, Forme::vague, Remplissage::vide);
-        const Carte *sc3 = new Carte(Couleur::violet, Nombre::trois, Forme::losange, Remplissage::hachure);
-
-        Combinaison comb1(sc1, sc2, sc3);
-        std::cout << comb1 << std::endl;
-
-        // Créer un SET invalide
-        const Carte *sc4 = new Carte(Couleur::rouge, Nombre::un, Forme::ovale, Remplissage::plein);
-        const Carte *sc5 = new Carte(Couleur::rouge, Nombre::deux, Forme::vague, Remplissage::vide);
-        const Carte *sc6 = new Carte(Couleur::vert, Nombre::trois, Forme::losange, Remplissage::hachure);
-
-        Combinaison comb2(sc4, sc5, sc6);
-        std::cout << comb2 << std::endl;
-
-        delete sc1;
-        delete sc2;
-        delete sc3;
-        delete sc4;
-        delete sc5;
-        delete sc6;
-
-        // Test Controleur
-        std::cout << "=== Test de la classe Controleur ===" << std::endl;
-        Controleur controleur;
-
-        std::cout << "Distribution initiale (12 cartes):" << std::endl;
-        controleur.distribuer();
-        controleur.getPlateau().print();
-        std::cout << std::endl;
-
-        std::cout << "Distribution supplementaire (1 carte):" << std::endl;
-        controleur.distribuer();
-        controleur.getPlateau().print();
-        std::cout << std::endl;
-
-        std::cout << "Cartes restantes dans la pioche: " << controleur.getPioche().getNbCartes() << std::endl;
-
-        // Test d'un vrai SET depuis le plateau
-        std::cout << "\n=== Recherche d'un SET dans le plateau ===" << std::endl;
-        bool setTrouve = false;
-        const Plateau &p = controleur.getPlateau();
-
-        for (size_t i = 0; i < p.getNbCartes() && !setTrouve; i++)
-        {
-            for (size_t j = i + 1; j < p.getNbCartes() && !setTrouve; j++)
-            {
-                for (size_t k = j + 1; k < p.getNbCartes() && !setTrouve; k++)
-                {
-                    Combinaison test(p.getCarte(i), p.getCarte(j), p.getCarte(k));
-                    if (test.estUnSET())
-                    {
-                        std::cout << "SET trouve aux positions " << i << ", " << j << ", " << k << ":" << std::endl;
-                        std::cout << test << std::endl;
-                        setTrouve = true;
-                    }
-                }
-            }
-        }
-
-        if (!setTrouve)
-        {
-            std::cout << "Aucun SET trouve dans le plateau actuel." << std::endl;
-        }
-
-        std::cout << "\n=== Tous les tests sont reussis! ===" << std::endl;
-    }
-    catch (const SetException &e)
-    {
-        std::cerr << "Erreur SET: " << e.what() << std::endl;
-        return 1;
-    }
-    catch (const std::exception &e)
-    {
-        std::cerr << "Erreur: " << e.what() << std::endl;
-        return 1;
-    }
-
-    return 0;
+	return 0;
 }
