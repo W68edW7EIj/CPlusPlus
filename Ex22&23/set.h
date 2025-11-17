@@ -806,7 +806,7 @@ namespace Set
 			 * - f: 要过滤的形状
 			 */
 			FormeIterator(Jeu &j, size_t index, Forme f)
-				: instance(j), i(index), forme(f) {}
+				: forme(f), instance(j), i(index) {}
 
 			friend class Jeu;
 
@@ -1245,6 +1245,103 @@ namespace Set
 		 * 实现在 set.cpp 中
 		 */
 		void print(ostream &f) const;
+
+		// ====================================================================
+		// Ex23: STL 风格迭代器 (STL-style Iterator)
+		// ====================================================================
+
+		/**
+		 * const_iterator: 符合 C++ 标准库风格的迭代器
+		 *
+		 * 设计目标：
+		 * - 兼容 C++11 的 range-based for 循环
+		 * - 遵循 STL 容器的迭代器接口规范
+		 *
+		 * 使用示例：
+		 *   for(Plateau::const_iterator it = plateau.begin(); it != plateau.end(); ++it)
+		 *       std::cout << *it << "\n";
+		 *
+		 *   // 或使用 range-based for
+		 *   for(const Carte& c : plateau)
+		 *       std::cout << c << "\n";
+		 */
+		class const_iterator
+		{
+		private:
+			const Plateau &plateau; // Plateau 实例的 const 引用
+			size_t index;			// 当前索引
+
+			/**
+			 * 构造函数：初始化迭代器位置
+			 */
+			const_iterator(const Plateau &p, size_t i) : plateau(p), index(i) {}
+
+			friend class Plateau;
+
+		public:
+			/**
+			 * operator++: 前缀递增运算符
+			 *
+			 * 用法：++it
+			 * 返回：引用支持链式操作
+			 */
+			const_iterator &operator++()
+			{
+				index++;
+				return *this;
+			}
+
+			/**
+			 * operator!=: 不等于比较运算符
+			 *
+			 * 用途：range-based for 循环判断是否到达 end()
+			 */
+			bool operator!=(const const_iterator &other) const
+			{
+				return index != other.index;
+			}
+
+			/**
+			 * operator==: 等于比较运算符
+			 */
+			bool operator==(const const_iterator &other) const
+			{
+				return index == other.index;
+			}
+
+			/**
+			 * operator*: 解引用运算符
+			 *
+			 * 用法：*it
+			 * 返回：当前位置的 Carte 引用
+			 */
+			const Carte &operator*() const
+			{
+				if (index >= plateau.nb)
+					throw SetException("Iterator out of bounds");
+				return *plateau.cartes[index];
+			}
+		};
+
+		/**
+		 * begin: 返回指向第一个元素的迭代器
+		 */
+		const_iterator begin() const { return const_iterator(*this, 0); }
+
+		/**
+		 * end: 返回指向"最后一个元素之后"的迭代器
+		 */
+		const_iterator end() const { return const_iterator(*this, nb); }
+
+		/**
+		 * cbegin: 返回 const 迭代器（C++11 标准）
+		 */
+		const_iterator cbegin() const { return begin(); }
+
+		/**
+		 * cend: 返回 const 迭代器（C++11 标准）
+		 */
+		const_iterator cend() const { return end(); }
 	};
 
 	/**
