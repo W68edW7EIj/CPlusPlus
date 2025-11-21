@@ -158,7 +158,7 @@ namespace Set
 	Jeu::Jeu()
 	{
 		size_t i = 0;
-		for (auto c : Couleurs)
+		for (auto c : Couleurs) // 遍历枚举，相当于JS的 for(let c of Couleurs)
 			for (auto n : Nombres)
 				for (auto f : Formes)
 					for (auto r : Remplissages)

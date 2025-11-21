@@ -1445,6 +1445,7 @@ namespace Set
 		 */
 		Combinaison(const Carte &C1, const Carte &C2, const Carte &C3)
 			: c1(&C1), c2(&C2), c3(&C3) {}
+		// 注意存储的是指针，所以后面需要通过 -> 调取属性、方法
 
 		// ====================================================================
 		// 访问器方法 (Accessor Methods)
