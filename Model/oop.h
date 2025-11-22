@@ -41,6 +41,7 @@ namespace oop
     ostream &operator<<(ostream &f, Attribute1 att1);
     ostream &operator<<(ostream &f, Attribute2 att2);
     extern initializer_list<Attribute1> Attribute1s;
+    extern initializer_list<Attribute2> Attribute2s;
 
     // 业务实体类
     class Entity1
@@ -55,6 +56,7 @@ namespace oop
         Entity1 &operator=(const Entity1 &) = default;
         ~Entity1() = default;
         friend class EntityManager;
+        friend class MultiEntityManager;
 
         // 暴露: 各个属性的getter
     public:
@@ -77,7 +79,7 @@ namespace oop
         ~Entity2() = default;
     };
 
-    // 业务实体类3 - 聚合关系 - 是一部分，但是不负责其生命周期
+    // 业务实体类3 - 聚合关系 - 语义上体现为是一部分，但是不负责其生命周期
     class Entity3
     {
     private:
@@ -226,6 +228,7 @@ namespace oop
         void add(const Entity1 &ent1);
         void rem(const Entity1 &ent1);
     };
-}
 
+    // 多实体管理类 - 组合关系 - 本质是多实体、且之间有关系的 EntityManager(固定长度)/Dynamic(动态) 类
+}
 #endif
