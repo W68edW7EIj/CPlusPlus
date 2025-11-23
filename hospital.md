@@ -211,7 +211,6 @@ private:
     AppointmentSlot **slots;
     size_t nbSlots;
 
-    // 单例
     HospitalManager();
     ~HospitalManager();
 

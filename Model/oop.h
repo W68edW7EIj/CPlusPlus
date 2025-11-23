@@ -122,7 +122,7 @@ namespace oop
         {
             // 私有：当前实体指针，剩余数，构造函数，友元管理类
         private:
-            const Entity1 **currentEntity; // 双*拿到对象数组的第一个
+            const Entity1 **currentEntity;
             size_t NbLeft;
             Iterator(const Entity1 **ptr, size_t n) : currentEntity(ptr), NbLeft(n) {}
             friend class EntityManager;

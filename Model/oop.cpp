@@ -15,6 +15,8 @@ namespace oop
             return "enum1";
         case Attribute1::enum2:
             return "enum2";
+        default:
+            throw SetException("attribute1 inconnue");
         }
     }
     // out-stream
