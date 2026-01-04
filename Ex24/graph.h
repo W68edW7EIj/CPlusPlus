@@ -9,7 +9,18 @@
 
 using namespace std;
 
-class GraphException : public exception
+/*
+C++异常继承树
+std::exception
+ ├── std::logic_error
+ │    ├── invalid_argument
+ │    ├── out_of_range
+ ├── std::runtime_error
+ │    ├── overflow_error
+ │    ├── underflow_error
+抛异常时用具体类型，捕获时用基类引用
+*/
+class GraphException : public exception // 继承 std::exception 这样能被 catch(exception&)
 {
     string info;
 
@@ -22,7 +33,7 @@ public:
 
 class Graph
 {
-    vector<list<unsigned int>> adj;
+    vector<list<unsigned int>> adj; // adjacency 邻接
     string name;
 
     void checkVertex(unsigned int i) const;
