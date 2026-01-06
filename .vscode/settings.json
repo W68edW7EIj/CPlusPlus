@@ -8,6 +8,7 @@
     // 自定义 C++ 运行命令（如果在子文件夹中，编译所有cpp文件；否则只编译当前文件）
     "code-runner.executorMap": {
         "cpp": "cd $dir && if [ $dir != $workspaceRoot ] && [ $(ls -1 *.cpp 2>/dev/null | wc -l) -gt 1 ]; then g++ -std=c++17 *.cpp -o main && ./main; else g++ -std=c++17 $fileName -o $fileNameWithoutExt && ./$fileNameWithoutExt; fi"
+        // zsh 在处理 glob 通配符 *.CPP 时，如果没有匹配到任何文件，会直接报错退出，而不是像 bash 那样忽略或传递原字符串。2>/dev/null 只能重定向命令的 stderr，无法阻止 zsh 的通配符匹配失败错误
     },
     "files.associations": {
         "__bit_reference": "cpp",
