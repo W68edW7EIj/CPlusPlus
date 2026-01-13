@@ -7,7 +7,7 @@
 
 class Card
 {
-protected:
+protected: // 实现双向链表、管理顺序
     Card *previous;
     Card *next;
     std::vector<Widget *> widgets;

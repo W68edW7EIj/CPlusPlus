@@ -4,7 +4,8 @@
 #include <string>
 #include "Widget.h"
 
-class Card; // 前向声明
+class Card; // 前向声明：只使用指针、不需要完整定义
+// 如果是 #include "Card.h" 的话，由于后者也引用了前者，那么就循环依赖了
 
 class Button : public Widget
 {
