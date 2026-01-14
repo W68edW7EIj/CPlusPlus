@@ -1,3 +1,33 @@
+/*
+Evt1j、Evt1jDur、Rdv 三个类构成一条清晰的继承层次结构（inheritance hierarchy），
+使用 public 继承，并通过 方法重定义（polymorphism） 实现事件的特化。
+
+        Evt1j
+---------------------
+- date : Date
+- sujet : string
+---------------------
++ afficher()
+
+          ▲
+          │
+      Evt1jDur
+---------------------
+- debut : Horaire
+- duree : Duree
+---------------------
++ afficher()
+
+          ▲
+          │
+          Rdv
+---------------------
+- personnes : string
+- lieu : string
+---------------------
++ afficher()
+*/
+
 #ifndef EVENEMENT_H
 #define EVENEMENT_H
 
