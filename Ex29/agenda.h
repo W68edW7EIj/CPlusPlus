@@ -14,11 +14,21 @@ namespace TIME
     private:
         std::vector<Evt1j *> evenements; // 异构存储：基类指针
         /*
-
+        1. 异构存储
+            通过 基类指针 + virtual 实现对不同派生类型的统一处理
+            遍历时每个指针调用正确的虚函数
+        2. 注意存的是 指针Evt1j* 而不是对象
+            1. 如果存的是对象在例如 push_back 时会发生对象切片
+                对象切片：当派生类对象如 Evt1jDur 被复制到基类容器时，只有基类部分被保留，派生类的额外成员会被切掉
+            2. 实现多态性：C++的运行时多态只能通过指针或引用实现
         */
 
-        // 禁止复制（考点！）
         Agenda(const Agenda &) = delete;
+        // 禁止复制（考点！）
+        /*
+        Agenda只保存裸指针，拷贝会导致多个 Agenda 指向同一个事件，所有权不清晰、容易出错
+        */
+
         Agenda &operator=(const Agenda &) = delete;
 
     public:
